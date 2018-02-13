@@ -47,6 +47,8 @@
     <Compile Include="GlobalVariables.cs" />
     <Compile Include="InterfaceHandler\InterfaceController.cs" />
     <Compile Include="MainGame.cs" />
+    <Compile Include="NeuralNetwork\DataPiece.cs" />
+    <Compile Include="NeuralNetwork\TrainingData.cs" />
     <Compile Include="Physics\PhysicsController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,9 +68,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NeuralNetwork\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
