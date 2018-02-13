@@ -1,4 +1,5 @@
 ﻿using FlappyBirdNeuralNetwork.NeuralNetwork;
+using FlappyBirdNeuralNetwork.NeuralNetwork.MainNeuralNetwork;
 
 namespace FlappyBirdNeuralNetwork
 {
@@ -8,6 +9,8 @@ namespace FlappyBirdNeuralNetwork
         internal static bool _InGame = false;
         internal static bool _Dead = false;
 
+        //Neural network based variables
+        internal static NeuralNetworkMain _ArtificialNeuralNetwork;
         internal static TrainingData _TrainingData;
     }
 }
