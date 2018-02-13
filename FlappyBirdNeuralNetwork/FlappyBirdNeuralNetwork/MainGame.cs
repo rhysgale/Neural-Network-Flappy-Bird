@@ -1,5 +1,6 @@
 ﻿using FlappyBirdNeuralNetwork.FlappyBird;
 using FlappyBirdNeuralNetwork.InterfaceHandler;
+using FlappyBirdNeuralNetwork.NeuralNetwork;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -36,6 +37,9 @@ namespace FlappyBirdNeuralNetwork
 
             _Controller = new GameController(Content);
             _InterfaceController = new InterfaceController(Content, _Controller, this);
+
+            //Neural Network Training Data
+            GlobalVariables._TrainingData = new TrainingData();
         }
 
         /// <summary>

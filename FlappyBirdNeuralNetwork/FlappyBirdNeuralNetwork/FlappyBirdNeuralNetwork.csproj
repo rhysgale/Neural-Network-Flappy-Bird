@@ -48,6 +48,11 @@
     <Compile Include="InterfaceHandler\InterfaceController.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="NeuralNetwork\DataPiece.cs" />
+    <Compile Include="NeuralNetwork\MainNeuralNetwork\Dendrite.cs" />
+    <Compile Include="NeuralNetwork\MainNeuralNetwork\Layer.cs" />
+    <Compile Include="NeuralNetwork\MainNeuralNetwork\NeuralNetworkMain.cs" />
+    <Compile Include="NeuralNetwork\MainNeuralNetwork\Neuron.cs" />
+    <Compile Include="NeuralNetwork\MainNeuralNetwork\RandomNumberGen.cs" />
     <Compile Include="NeuralNetwork\TrainingData.cs" />
     <Compile Include="Physics\PhysicsController.cs" />
     <Compile Include="Program.cs" />
