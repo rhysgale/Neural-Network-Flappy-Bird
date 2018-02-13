@@ -41,9 +41,7 @@ namespace FlappyBirdNeuralNetwork
 
 
             //Neural Network Variables to Populate
-            GlobalVariables._TrainingData = new TrainingData();
-            GlobalVariables._ArtificialNeuralNetwork = new NeuralNetworkMain(0.9f, new [] {2, 3, 1}); //2 input layer neurons, 3 hidden layer neurons, 1 output layer neuron
-        }
+            GlobalVariables._TrainingData = new TrainingData();        }
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load

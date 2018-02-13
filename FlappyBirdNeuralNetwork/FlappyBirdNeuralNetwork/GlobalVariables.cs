@@ -10,7 +10,6 @@ namespace FlappyBirdNeuralNetwork
         internal static bool _Dead = false;
 
         //Neural network based variables
-        internal static NeuralNetworkMain _ArtificialNeuralNetwork;
         internal static TrainingData _TrainingData;
     }
 }

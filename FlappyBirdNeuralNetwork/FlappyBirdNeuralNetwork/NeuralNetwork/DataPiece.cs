@@ -2,8 +2,8 @@
 {
     internal class DataPiece
     {
-        public int _InputA;
-        public int _InputB;
-        public int _Output;
+        public double _InputA;
+        public double _InputB;
+        public double _Output;
     }
 }

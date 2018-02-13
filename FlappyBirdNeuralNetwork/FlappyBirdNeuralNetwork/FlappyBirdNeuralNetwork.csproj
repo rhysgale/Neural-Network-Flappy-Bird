@@ -53,6 +53,7 @@
     <Compile Include="NeuralNetwork\MainNeuralNetwork\NeuralNetworkMain.cs" />
     <Compile Include="NeuralNetwork\MainNeuralNetwork\Neuron.cs" />
     <Compile Include="NeuralNetwork\MainNeuralNetwork\RandomNumberGen.cs" />
+    <Compile Include="NeuralNetwork\NeuralNetworkController.cs" />
     <Compile Include="NeuralNetwork\TrainingData.cs" />
     <Compile Include="Physics\PhysicsController.cs" />
     <Compile Include="Program.cs" />
