@@ -13,6 +13,8 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
         private readonly GameController _MainGame;
         private readonly MainGame _Game;
 
+        private Texture2D _Background;
+
         private int _SelectedIndex;
 
         private bool _KeyPressed;
@@ -23,6 +25,7 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
             _SmallText = manager.Load<SpriteFont>("OtherText");
             _MainGame = main;
             _Game = game;
+            _Background = manager.Load<Texture2D>("FlappyBackground");
         }
 
         internal void Update(KeyboardState state)
@@ -71,8 +74,9 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
                 //show score
                 if (GlobalVariables._Dead)
                 {
-                    main.DrawString(_SmallText, "You are dead. Press [ENTER] to return to main menu.", new Vector2(20, 200), Color.Red);
+                    main.DrawString(_SmallText, "You are dead.", new Vector2(20, 200), Color.Red);
                     main.DrawString(_SmallText, "You scored: " + GlobalVariables._Score, new Vector2(20, 250), Color.Green);
+                    main.DrawString(_SmallText, "Press [ENTER] to return to main menu.", new Vector2(20, 300), Color.Red);
                 }
                 else
                 {
@@ -82,6 +86,8 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
             else
             {
                 //Show main menu
+                main.Draw(_Background, new Rectangle(0, 0, 800, 500), Color.White);
+
                 main.DrawString(_BigText, "Flappy Bird: Neural Network", new Vector2(20, 20), Color.Red);
 
                 if (_SelectedIndex == 0)
