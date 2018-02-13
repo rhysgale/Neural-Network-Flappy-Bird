@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FlappyBirdNeuralNetwork.FlappyBird;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,17 +8,21 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
 {
     internal class InterfaceController
     {
-        private SpriteFont _BigText;
-        private SpriteFont _SmallText;
+        private readonly SpriteFont _BigText;
+        private readonly SpriteFont _SmallText;
+        private readonly GameController _MainGame;
+        private readonly MainGame _Game;
 
-        private int _SelectedIndex = 0;
+        private int _SelectedIndex;
 
         private bool _KeyPressed;
 
-        internal InterfaceController(ContentManager manager)
+        internal InterfaceController(ContentManager manager, GameController main, MainGame game)
         {
             _BigText = manager.Load<SpriteFont>("MainText");
             _SmallText = manager.Load<SpriteFont>("OtherText");
+            _MainGame = main;
+            _Game = game;
         }
 
         internal void Update(KeyboardState state)
@@ -38,7 +43,7 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
                     }
                     else
                     {
-                        //quit game
+                        _Game.Exit();
                     }
                 }
 
@@ -49,7 +54,13 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
             }
             else
             {
-                
+                if (!GlobalVariables._Dead) return;
+                if (!state.IsKeyDown(Keys.Enter)) return;
+
+                GlobalVariables._InGame = false;
+                GlobalVariables._Dead = false;
+                GlobalVariables._Score = 0;
+                _MainGame.ResetMap();
             }
         }
 
@@ -58,22 +69,30 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
             if (GlobalVariables._InGame)
             {
                 //show score
-                main.DrawString(_SmallText, "Score: " + GlobalVariables._Score, new Vector2(100, 20), Color.Yellow);
+                if (GlobalVariables._Dead)
+                {
+                    main.DrawString(_SmallText, "You are dead. Press [ENTER] to return to main menu.", new Vector2(20, 200), Color.Red);
+                    main.DrawString(_SmallText, "You scored: " + GlobalVariables._Score, new Vector2(20, 250), Color.Green);
+                }
+                else
+                {
+                    main.DrawString(_SmallText, "Score: " + GlobalVariables._Score, new Vector2(20, 20), Color.Yellow);
+                }
             }
             else
             {
                 //Show main menu
-                main.DrawString(_BigText, "Flappy Bird: Neural Network", new Vector2(100, 20), Color.Red);
+                main.DrawString(_BigText, "Flappy Bird: Neural Network", new Vector2(20, 20), Color.Red);
 
                 if (_SelectedIndex == 0)
                 {
-                    main.DrawString(_SmallText, "Play Game", new Vector2(200, 200), Color.Yellow);
-                    main.DrawString(_SmallText, "Exit Game", new Vector2(200, 300), Color.White);
+                    main.DrawString(_SmallText, "Play Game", new Vector2(20, 200), Color.Yellow);
+                    main.DrawString(_SmallText, "Exit Game", new Vector2(20, 300), Color.White);
                 }
                 else
                 {
-                    main.DrawString(_SmallText, "Play Game", new Vector2(200, 200), Color.White);
-                    main.DrawString(_SmallText, "Exit Game", new Vector2(200, 300), Color.Yellow);
+                    main.DrawString(_SmallText, "Play Game", new Vector2(20, 200), Color.White);
+                    main.DrawString(_SmallText, "Exit Game", new Vector2(20, 300), Color.Yellow);
                 }
             }
         }

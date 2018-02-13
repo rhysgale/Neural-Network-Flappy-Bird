@@ -15,14 +15,21 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
         private List<Asset> _AssetList;
         private PhysicsController _Physics;
         private Asset _Bird;
-        private bool _Dead = false;
 
         internal GameController(ContentManager manager)
         {
             _Physics = new PhysicsController();
             _TextureDictionary = new NeuralNetworkDictionary(manager); //Loads textures
             _AssetList = new List<Asset>();
-            _Bird = new Asset(50, 300, 50, 50,TextureType.Bird, true);
+
+            ResetMap();
+        }
+
+        internal void ResetMap()
+        {
+            _AssetList.Clear();
+
+            _Bird = new Asset(50, 300, 50, 50, TextureType.Bird, true);
 
             _AssetList.Add(new Asset(800, -150, 50, 250, TextureType.BottomPipe, false));
             _AssetList.Add(new Asset(800, 400, 50, 250, TextureType.TopPipe, false));
@@ -36,7 +43,7 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 
         internal void Update()
         {
-            if (_Dead) return;
+            if (GlobalVariables._Dead) return;
 
             _Physics.ApplyPhysics(_Bird);
             foreach (var asset in _AssetList)
@@ -46,7 +53,7 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 
                 if (hit)
                 {
-                    _Dead = true;
+                    GlobalVariables._Dead = true;
                 }
             }
 
@@ -55,9 +62,6 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 
         internal void Draw(SpriteBatch main)
         {
-            if (_Dead)
-                return;
-
             foreach (var asset in _AssetList)
             {
                 main.Draw(_TextureDictionary.GetTexture(asset.GetTextureType()),

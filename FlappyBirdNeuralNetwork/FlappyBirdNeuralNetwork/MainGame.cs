@@ -35,7 +35,7 @@ namespace FlappyBirdNeuralNetwork
             base.Initialize();
 
             _Controller = new GameController(Content);
-            _InterfaceController = new InterfaceController(Content);
+            _InterfaceController = new InterfaceController(Content, _Controller, this);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace FlappyBirdNeuralNetwork
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && GlobalVariables._InGame == true)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && GlobalVariables._InGame)
                 _Controller.JumpPressed();
 
             if (GlobalVariables._InGame)
