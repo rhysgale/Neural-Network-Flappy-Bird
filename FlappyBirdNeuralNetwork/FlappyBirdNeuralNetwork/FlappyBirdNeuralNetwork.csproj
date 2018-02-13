@@ -44,6 +44,8 @@
     <Compile Include="Assets\Asset.cs" />
     <Compile Include="Assets\NeuralNetworkDictionary.cs" />
     <Compile Include="FlappyBird\GameController.cs" />
+    <Compile Include="GlobalVariables.cs" />
+    <Compile Include="InterfaceHandler\InterfaceController.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Physics\PhysicsController.cs" />
     <Compile Include="Program.cs" />

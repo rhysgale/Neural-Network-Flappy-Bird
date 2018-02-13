@@ -1,4 +1,5 @@
 ﻿using FlappyBirdNeuralNetwork.FlappyBird;
+using FlappyBirdNeuralNetwork.InterfaceHandler;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,13 +11,14 @@ namespace FlappyBirdNeuralNetwork
     /// </summary>
     public class MainGame : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        GraphicsDeviceManager _Graphics;
+        SpriteBatch _SpriteBatch;
         private GameController _Controller;
+        private InterfaceController _InterfaceController;
 
         public MainGame()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -33,6 +35,7 @@ namespace FlappyBirdNeuralNetwork
             base.Initialize();
 
             _Controller = new GameController(Content);
+            _InterfaceController = new InterfaceController(Content);
         }
 
         /// <summary>
@@ -42,7 +45,7 @@ namespace FlappyBirdNeuralNetwork
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -66,10 +69,13 @@ namespace FlappyBirdNeuralNetwork
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && GlobalVariables._InGame == true)
                 _Controller.JumpPressed();
 
-            _Controller.Update();
+            if (GlobalVariables._InGame)
+                _Controller.Update();
+
+            _InterfaceController.Update(Keyboard.GetState());
 
             base.Update(gameTime);
         }
@@ -82,9 +88,12 @@ namespace FlappyBirdNeuralNetwork
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-            _Controller.Draw(spriteBatch);
-            spriteBatch.End();
+            _SpriteBatch.Begin();
+            if (GlobalVariables._InGame)
+                _Controller.Draw(_SpriteBatch);
+
+            _InterfaceController.Draw(_SpriteBatch);
+            _SpriteBatch.End();
 
             base.Draw(gameTime);
         }

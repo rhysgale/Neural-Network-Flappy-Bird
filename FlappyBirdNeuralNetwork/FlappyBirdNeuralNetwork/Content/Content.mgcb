@@ -49,3 +49,17 @@
 /processorParam:TextureFormat=Color
 /build:Top.png
 
+#begin MainText.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:MainText.spritefont
+
+#begin OtherText.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:OtherText.spritefont
+

@@ -79,6 +79,8 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
         {
             if (_AssetList[0].GetPosition().X < -50)
             {
+                GlobalVariables._Score++;
+
                 _AssetList.Remove(_AssetList[0]);
                 _AssetList.Remove(_AssetList[0]);
 
