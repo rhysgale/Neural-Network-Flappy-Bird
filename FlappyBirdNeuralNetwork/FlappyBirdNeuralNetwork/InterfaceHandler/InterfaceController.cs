@@ -30,7 +30,7 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
 
         internal void Update(KeyboardState state)
         {
-            if (GlobalVariables._InGame == false)
+            if (GlobalVariables._InGame == false && GlobalVariables._NeuralNetworkGame == false)
             {
                 if ((state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.Up)) && _KeyPressed == false)
                 {
@@ -54,6 +54,12 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
                 {
                     _KeyPressed = false;
                 }
+
+                if (state.IsKeyDown(Keys.N))
+                {
+                    GlobalVariables._NetworkController.TrainNeuralNetwork();
+                    GlobalVariables._NeuralNetworkGame = true;
+                }
             }
             else
             {
@@ -69,7 +75,7 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
 
         internal void Draw(SpriteBatch main)
         {
-            if (GlobalVariables._InGame)
+            if (GlobalVariables._InGame || GlobalVariables._NeuralNetworkGame)
             {
                 //show score
                 if (GlobalVariables._Dead)

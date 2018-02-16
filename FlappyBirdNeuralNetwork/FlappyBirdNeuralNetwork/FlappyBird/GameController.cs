@@ -11,7 +11,7 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 {
     internal class GameController
     {
-        private NeuralNetworkDictionary _TextureDictionary;
+        private NeuralNetworkDictionary _TextureDictionary; //Textures stored here
         private List<Asset> _AssetList;
         private PhysicsController _Physics;
         private Asset _Bird;
@@ -57,6 +57,14 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
                 }
             }
 
+            if (_Bird.GetPosition().Y > 600 || _Bird.GetPosition().Y < -50)
+                GlobalVariables._Dead = true;
+
+            if (GlobalVariables._Dead)
+            {
+                 var stuff = GlobalVariables._TrainingData.GetTrainingData();
+            }
+
             PipeUpdate();
         }
 
@@ -76,7 +84,9 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 
         internal void JumpPressed()
         {
+            GlobalVariables._NetworkController.SaveFlap(GetHorizontalDistance(), GetVerticalDistance(), 1); //save the two distances, and whether we flapped
             _Bird.UpdateVelocity(new Vector2(0, -50));
+            GlobalVariables._Flapped = true;
         }
 
         internal void PipeUpdate()
@@ -93,6 +103,22 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
                 _AssetList.Add(new Asset(xPos, -150, 50, 250, TextureType.BottomPipe, false));
                 _AssetList.Add(new Asset(xPos, 400, 50, 250, TextureType.TopPipe, false));
             }
+        }
+
+        internal int GetHorizontalDistance()
+        {
+            int birdX = (int) _Bird.GetPosition().X;
+            int pipeX = (int) _AssetList[1].GetPosition().X;
+
+            return pipeX - birdX;
+        }
+
+        internal int GetVerticalDistance()
+        {
+            int birdY = (int)_Bird.GetPosition().Y;
+            int pipeY = (int)_AssetList[1].GetPosition().Y  - 100;
+
+            return birdY - pipeY;
         }
     }
 }

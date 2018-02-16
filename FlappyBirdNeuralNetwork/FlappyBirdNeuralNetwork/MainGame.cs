@@ -1,4 +1,5 @@
-﻿using FlappyBirdNeuralNetwork.FlappyBird;
+﻿using System.Collections.Generic;
+using FlappyBirdNeuralNetwork.FlappyBird;
 using FlappyBirdNeuralNetwork.InterfaceHandler;
 using FlappyBirdNeuralNetwork.NeuralNetwork;
 using FlappyBirdNeuralNetwork.NeuralNetwork.MainNeuralNetwork;
@@ -13,10 +14,11 @@ namespace FlappyBirdNeuralNetwork
     /// </summary>
     public class MainGame : Game
     {
-        GraphicsDeviceManager _Graphics;
-        SpriteBatch _SpriteBatch;
+        private GraphicsDeviceManager _Graphics;
+        private SpriteBatch _SpriteBatch;
         private GameController _Controller;
         private InterfaceController _InterfaceController;
+        private bool _KeyDown;
 
         public MainGame()
         {
@@ -41,7 +43,9 @@ namespace FlappyBirdNeuralNetwork
 
 
             //Neural Network Variables to Populate
-            GlobalVariables._TrainingData = new TrainingData();        }
+            GlobalVariables._TrainingData = new TrainingData();        
+            GlobalVariables._NetworkController = new NeuralNetworkController();
+        }
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -74,11 +78,50 @@ namespace FlappyBirdNeuralNetwork
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && GlobalVariables._InGame)
-                _Controller.JumpPressed();
-
             if (GlobalVariables._InGame)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.Space) && GlobalVariables._InGame && !_KeyDown)
+                {
+                    _Controller.JumpPressed();
+                    _KeyDown = true;
+                }
+
+                if (!Keyboard.GetState().IsKeyDown(Keys.Space))
+                    _KeyDown = false;
+
                 _Controller.Update();
+                GlobalVariables._FrameCount++;
+
+                if (GlobalVariables._FrameCount >= 30) //60 frames is equivilant to around 1 second in game
+                {
+                    if (GlobalVariables._Flapped == false) //every second, save whether there was a flap or not
+                    {
+                        GlobalVariables._NetworkController.SaveFlap(_Controller.GetHorizontalDistance(), _Controller.GetVerticalDistance(), 0);
+                        GlobalVariables._FrameCount = 0;
+                    }
+                    else
+                    {
+                        GlobalVariables._Flapped = false;
+                        GlobalVariables._FrameCount = 0;
+                    }
+                }
+            }
+
+            if (GlobalVariables._NeuralNetworkGame)
+            {
+                _Controller.Update();
+
+                int horiDistance = _Controller.GetHorizontalDistance();
+                int verDistance = _Controller.GetVerticalDistance();
+                List<double> arr = new List<double> {horiDistance, verDistance};
+
+                var shouldFlap = GlobalVariables._NetworkController.GetNetworkOutput(arr);
+
+                if (shouldFlap[0] > 0.5)
+                {
+                    _Controller.JumpPressed();
+                }
+            }
 
             _InterfaceController.Update(Keyboard.GetState());
 
@@ -94,7 +137,7 @@ namespace FlappyBirdNeuralNetwork
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _SpriteBatch.Begin();
-            if (GlobalVariables._InGame)
+            if (GlobalVariables._InGame || GlobalVariables._NeuralNetworkGame)
                 _Controller.Draw(_SpriteBatch);
 
             _InterfaceController.Draw(_SpriteBatch);
