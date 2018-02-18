@@ -92,7 +92,7 @@ namespace FlappyBirdNeuralNetwork
                 _Controller.Update();
                 GlobalVariables._FrameCount++;
 
-                if (GlobalVariables._FrameCount >= 30) //60 frames is equivilant to around 1 second in game
+                if (GlobalVariables._FrameCount >= 10) //60 frames is equivilant to around 1 second in game
                 {
                     if (GlobalVariables._Flapped == false) //every second, save whether there was a flap or not
                     {
