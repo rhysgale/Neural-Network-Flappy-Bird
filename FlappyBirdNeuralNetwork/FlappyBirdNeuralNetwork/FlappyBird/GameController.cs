@@ -47,20 +47,20 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
                 gap = 200;
             }
 
-            int y = _RandomGen.Next(300, 400);
+            int y = _RandomGen.Next(300, 500);
 
             _AssetList.Add(new Asset(800, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
             _AssetList.Add(new Asset(800, y, 50, 250, TextureType.TopPipe, false));
 
             y = _RandomGen.Next(300, 400);
 
-            _AssetList.Add(new Asset(1200, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
-            _AssetList.Add(new Asset(1200, y, 50, 250, TextureType.TopPipe, false));
+            _AssetList.Add(new Asset(1100, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(1100, y, 50, 250, TextureType.TopPipe, false));
 
             y = _RandomGen.Next(300, 400);
 
-            _AssetList.Add(new Asset(1600, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
-            _AssetList.Add(new Asset(1600, y, 50, 250, TextureType.TopPipe, false));
+            _AssetList.Add(new Asset(1400, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(1400, y, 50, 250, TextureType.TopPipe, false));
         }
 
         internal void Update()
@@ -120,21 +120,21 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
                 _AssetList.Remove(_AssetList[0]);
                 _AssetList.Remove(_AssetList[0]);
 
-                int xPos = (int)_AssetList[2].GetPosition().X + 400;
+                int xPos = (int)_AssetList[2].GetPosition().X + 300;
 
                 int gap;
 
-                if (GlobalVariables._Difficulty == 0)
+                switch (GlobalVariables._Difficulty)
                 {
-                    gap = 300;
-                }
-                else if (GlobalVariables._Difficulty == 1)
-                {
-                    gap = 250;
-                }
-                else
-                {
-                    gap = 200;
+                    case 0:
+                        gap = 300;
+                        break;
+                    case 1:
+                        gap = 250;
+                        break;
+                    default:
+                        gap = 200;
+                        break;
                 }
 
                 int y = _RandomGen.Next(300, 400);
