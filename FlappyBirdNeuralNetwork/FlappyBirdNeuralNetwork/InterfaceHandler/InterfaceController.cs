@@ -68,6 +68,7 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
 
                 GlobalVariables._InGame = false;
                 GlobalVariables._Dead = false;
+                GlobalVariables._NeuralNetworkGame = false;
                 GlobalVariables._Score = 0;
                 _MainGame.ResetMap();
             }

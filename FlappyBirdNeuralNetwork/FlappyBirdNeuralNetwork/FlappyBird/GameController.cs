@@ -15,13 +15,14 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
         private List<Asset> _AssetList;
         private PhysicsController _Physics;
         private Asset _Bird;
+        private Random _RandomGen;
 
         internal GameController(ContentManager manager)
         {
             _Physics = new PhysicsController();
             _TextureDictionary = new NeuralNetworkDictionary(manager); //Loads textures
             _AssetList = new List<Asset>();
-
+            _RandomGen = new Random();
             ResetMap();
         }
 
@@ -31,14 +32,35 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 
             _Bird = new Asset(50, 300, 50, 50, TextureType.Bird, true);
 
-            _AssetList.Add(new Asset(800, -150, 50, 250, TextureType.BottomPipe, false));
-            _AssetList.Add(new Asset(800, 400, 50, 250, TextureType.TopPipe, false));
+            int gap;
 
-            _AssetList.Add(new Asset(1200, -150, 50, 250, TextureType.BottomPipe, false));
-            _AssetList.Add(new Asset(1200, 400, 50, 250, TextureType.TopPipe, false));
+            if (GlobalVariables._Difficulty == 0)
+            {
+                gap = 300;
+            }
+            else if (GlobalVariables._Difficulty == 1)
+            {
+                gap = 250;
+            }
+            else
+            {
+                gap = 200;
+            }
 
-            _AssetList.Add(new Asset(1600, -150, 50, 250, TextureType.BottomPipe, false));
-            _AssetList.Add(new Asset(1600, 400, 50, 250, TextureType.TopPipe, false));
+            int y = _RandomGen.Next(300, 400);
+
+            _AssetList.Add(new Asset(800, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(800, y, 50, 250, TextureType.TopPipe, false));
+
+            y = _RandomGen.Next(300, 400);
+
+            _AssetList.Add(new Asset(1200, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(1200, y, 50, 250, TextureType.TopPipe, false));
+
+            y = _RandomGen.Next(300, 400);
+
+            _AssetList.Add(new Asset(1600, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(1600, y, 50, 250, TextureType.TopPipe, false));
         }
 
         internal void Update()
@@ -100,8 +122,25 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 
                 int xPos = (int)_AssetList[2].GetPosition().X + 400;
 
-                _AssetList.Add(new Asset(xPos, -150, 50, 250, TextureType.BottomPipe, false));
-                _AssetList.Add(new Asset(xPos, 400, 50, 250, TextureType.TopPipe, false));
+                int gap;
+
+                if (GlobalVariables._Difficulty == 0)
+                {
+                    gap = 300;
+                }
+                else if (GlobalVariables._Difficulty == 1)
+                {
+                    gap = 250;
+                }
+                else
+                {
+                    gap = 200;
+                }
+
+                int y = _RandomGen.Next(300, 400);
+
+                _AssetList.Add(new Asset(xPos, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+                _AssetList.Add(new Asset(xPos, y, 50, 250, TextureType.TopPipe, false));
             }
         }
 
