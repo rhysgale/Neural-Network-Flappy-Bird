@@ -17,7 +17,7 @@ namespace FlappyBirdNeuralNetwork.NeuralNetwork
             //Train the nerual network with all the gathered training data. 
             List<DataPiece> trainingData = GlobalVariables._TrainingData.GetTrainingData();
 
-            for (int i = 0; i < 100; i++)
+            //for (int i = 0; i < 100; i++)
             {
                 foreach (var dataPiece in trainingData)
                 {

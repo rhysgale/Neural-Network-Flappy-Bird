@@ -54,18 +54,39 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 
             y = _RandomGen.Next(300, 400);
 
-            _AssetList.Add(new Asset(1100, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
-            _AssetList.Add(new Asset(1100, y, 50, 250, TextureType.TopPipe, false));
+            _AssetList.Add(new Asset(1000, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(1000, y, 50, 250, TextureType.TopPipe, false));
+
+            y = _RandomGen.Next(300, 400);
+
+            _AssetList.Add(new Asset(1200, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(1200, y, 50, 250, TextureType.TopPipe, false));
 
             y = _RandomGen.Next(300, 400);
 
             _AssetList.Add(new Asset(1400, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
             _AssetList.Add(new Asset(1400, y, 50, 250, TextureType.TopPipe, false));
+
+            y = _RandomGen.Next(300, 400);
+
+            _AssetList.Add(new Asset(1600, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(1600, y, 50, 250, TextureType.TopPipe, false));
         }
 
         internal void Update()
         {
             if (GlobalVariables._Dead) return;
+
+            if (GlobalVariables._NeuralNetworkGame)
+            {
+                if (_AssetList[0].GetPosition().X > 300)
+                {
+                    if (_Bird.GetPosition().Y > 400)
+                    {
+                        JumpPressed();
+                    }
+                }
+            }
 
             _Physics.ApplyPhysics(_Bird);
             foreach (var asset in _AssetList)
@@ -106,7 +127,9 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 
         internal void JumpPressed()
         {
-            GlobalVariables._NetworkController.SaveFlap(GetHorizontalDistance(), GetVerticalDistance(), 1); //save the two distances, and whether we flapped
+            if (!GlobalVariables._NeuralNetworkGame)
+                GlobalVariables._NetworkController.SaveFlap(GetHorizontalDistance(), GetVerticalDistance(), 1); //save the two distances, and whether we flapped
+
             _Bird.UpdateVelocity(new Vector2(0, -50));
             GlobalVariables._Flapped = true;
         }
@@ -120,7 +143,7 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
                 _AssetList.Remove(_AssetList[0]);
                 _AssetList.Remove(_AssetList[0]);
 
-                int xPos = (int)_AssetList[2].GetPosition().X + 300;
+                int xPos = (int)_AssetList[6].GetPosition().X + 200;
 
                 int gap;
 
@@ -148,14 +171,25 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
         {
             int birdX = (int) _Bird.GetPosition().X;
             int pipeX = (int) _AssetList[1].GetPosition().X;
+            int pipeX2 = (int) _AssetList[2].GetPosition().X;
 
+            if (pipeX - (birdX - 80) <= 0)
+                return pipeX2 - birdX;
+            
             return pipeX - birdX;
         }
 
         internal int GetVerticalDistance()
         {
+            int pipeX = (int)_AssetList[1].GetPosition().X - 50;
+            int birdX = (int)_Bird.GetPosition().X;
+
             int birdY = (int)_Bird.GetPosition().Y;
             int pipeY = (int)_AssetList[1].GetPosition().Y  - 100;
+            int pipeY2 = (int)_AssetList[3].GetPosition().Y - 100;
+
+            if (pipeX - (birdX - 80) <= 0)
+                return birdY - pipeY2;
 
             return birdY - pipeY;
         }

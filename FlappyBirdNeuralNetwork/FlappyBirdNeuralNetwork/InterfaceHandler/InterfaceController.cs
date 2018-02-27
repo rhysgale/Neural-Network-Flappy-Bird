@@ -76,6 +76,7 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
 
         internal void Draw(SpriteBatch main)
         {
+            main.Draw(_Background, new Rectangle(0, 0, 800, 500), Color.White);
             if (GlobalVariables._InGame || GlobalVariables._NeuralNetworkGame)
             {
                 //show score
@@ -93,7 +94,6 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
             else
             {
                 //Show main menu
-                main.Draw(_Background, new Rectangle(0, 0, 800, 500), Color.White);
 
                 main.DrawString(_BigText, "Flappy Bird: Neural Network", new Vector2(20, 20), Color.Red);
 

@@ -92,7 +92,7 @@ namespace FlappyBirdNeuralNetwork
                 _Controller.Update();
                 GlobalVariables._FrameCount++;
 
-                if (GlobalVariables._FrameCount >= 10) //60 frames is equivilant to around 1 second in game
+                if (GlobalVariables._FrameCount >= 10 && !GlobalVariables._NeuralNetworkGame) //60 frames is equivilant to around 1 second in game
                 {
                     if (GlobalVariables._Flapped == false) //every second, save whether there was a flap or not
                     {
@@ -137,10 +137,11 @@ namespace FlappyBirdNeuralNetwork
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _SpriteBatch.Begin();
+            _InterfaceController.Draw(_SpriteBatch);
+
             if (GlobalVariables._InGame || GlobalVariables._NeuralNetworkGame)
                 _Controller.Draw(_SpriteBatch);
 
-            _InterfaceController.Draw(_SpriteBatch);
             _SpriteBatch.End();
 
             base.Draw(gameTime);
