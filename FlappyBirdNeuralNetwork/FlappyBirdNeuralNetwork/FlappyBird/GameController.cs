@@ -34,17 +34,32 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 
             int gap;
 
-            if (GlobalVariables._Difficulty == 0)
+            if (GlobalVariables._GapDifficulty == 0)
             {
                 gap = 300;
             }
-            else if (GlobalVariables._Difficulty == 1)
+            else if (GlobalVariables._GapDifficulty == 1)
             {
                 gap = 250;
             }
             else
             {
                 gap = 200;
+            }
+
+            int obsgap;
+
+            switch (GlobalVariables._ObstacleDifficulty)
+            {
+                case 0:
+                    obsgap = 400;
+                    break;
+                case 1:
+                    obsgap = 300;
+                    break;
+                default:
+                    obsgap = 200;
+                    break;
             }
 
             int y = _RandomGen.Next(300, 500);
@@ -54,23 +69,23 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
 
             y = _RandomGen.Next(300, 400);
 
-            _AssetList.Add(new Asset(1000, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
-            _AssetList.Add(new Asset(1000, y, 50, 250, TextureType.TopPipe, false));
+            _AssetList.Add(new Asset(800 + obsgap, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(800 + obsgap, y, 50, 250, TextureType.TopPipe, false));
 
             y = _RandomGen.Next(300, 400);
 
-            _AssetList.Add(new Asset(1200, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
-            _AssetList.Add(new Asset(1200, y, 50, 250, TextureType.TopPipe, false));
+            _AssetList.Add(new Asset(800 + (obsgap*2), y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(800 + obsgap * 2, y, 50, 250, TextureType.TopPipe, false));
 
             y = _RandomGen.Next(300, 400);
 
-            _AssetList.Add(new Asset(1400, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
-            _AssetList.Add(new Asset(1400, y, 50, 250, TextureType.TopPipe, false));
+            _AssetList.Add(new Asset(800 + obsgap * 3, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(800 + obsgap * 3, y, 50, 250, TextureType.TopPipe, false));
 
             y = _RandomGen.Next(300, 400);
 
-            _AssetList.Add(new Asset(1600, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
-            _AssetList.Add(new Asset(1600, y, 50, 250, TextureType.TopPipe, false));
+            _AssetList.Add(new Asset(800+obsgap * 4, y - 250 - gap, 50, 250, TextureType.BottomPipe, false));
+            _AssetList.Add(new Asset(800 + obsgap * 4, y, 50, 250, TextureType.TopPipe, false));
         }
 
         internal void Update()
@@ -143,11 +158,26 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
                 _AssetList.Remove(_AssetList[0]);
                 _AssetList.Remove(_AssetList[0]);
 
-                int xPos = (int)_AssetList[6].GetPosition().X + 200;
+                int obsgap;
+
+                switch (GlobalVariables._ObstacleDifficulty)
+                {
+                    case 0:
+                        obsgap = 400;
+                        break;
+                    case 1:
+                        obsgap = 300;
+                        break;
+                    default:
+                        obsgap = 200;
+                        break;
+                }
+
+                int xPos = (int)_AssetList[6].GetPosition().X + obsgap;
 
                 int gap;
 
-                switch (GlobalVariables._Difficulty)
+                switch (GlobalVariables._GapDifficulty)
                 {
                     case 0:
                         gap = 300;
@@ -173,7 +203,7 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
             int pipeX = (int) _AssetList[1].GetPosition().X;
             int pipeX2 = (int) _AssetList[2].GetPosition().X;
 
-            if (pipeX - (birdX - 80) <= 0)
+            if (pipeX - (birdX - 85) <= 0)
                 return pipeX2 - birdX;
             
             return pipeX - birdX;
@@ -188,7 +218,7 @@ namespace FlappyBirdNeuralNetwork.FlappyBird
             int pipeY = (int)_AssetList[1].GetPosition().Y  - 100;
             int pipeY2 = (int)_AssetList[3].GetPosition().Y - 100;
 
-            if (pipeX - (birdX - 80) <= 0)
+            if (pipeX - (birdX - 85) <= 0)
                 return birdY - pipeY2;
 
             return birdY - pipeY;
