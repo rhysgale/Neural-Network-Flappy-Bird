@@ -13,7 +13,7 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
         private readonly GameController _MainGame;
         private readonly MainGame _Game;
 
-        private Texture2D _Background;
+        private readonly Texture2D _Background;
 
         private int _SelectedIndex;
 
@@ -35,30 +35,71 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
                 if ((state.IsKeyDown(Keys.Down) || state.IsKeyDown(Keys.Up)) && _KeyPressed == false)
                 {
                     _KeyPressed = true;
-                    _SelectedIndex = _SelectedIndex == 0 ? 1 : 0;
+                    _SelectedIndex = state.IsKeyDown(Keys.Down) ? _SelectedIndex + 1 : _SelectedIndex - 1;
+
+                    if (_SelectedIndex == 5)
+                    {
+                        _SelectedIndex = 0;
+                    }
+                    if (_SelectedIndex == -1)
+                    {
+                        _SelectedIndex = 4;
+                    }
                 }
 
                 if (state.IsKeyDown(Keys.Space) && _KeyPressed == false)
                 {
+                    _KeyPressed = true;
                     if (_SelectedIndex == 0)
                     {
                         GlobalVariables._InGame = true;
+                        _MainGame.ResetMap();
+                    }
+                    else if (_SelectedIndex == 1)
+                    {
+                        _Game.Exit();
+                    }
+                    else if (_SelectedIndex == 2)
+                    {
+                        switch (GlobalVariables._GapDifficulty)
+                        {
+                            case 0:
+                                GlobalVariables._GapDifficulty = 1;
+                                break;
+                            case 1:
+                                GlobalVariables._GapDifficulty = 2;
+                                break;
+                            case 2:
+                                GlobalVariables._GapDifficulty = 0;
+                                break;
+                        }
+                    }
+                    else if (_SelectedIndex == 3)
+                    {
+                        switch (GlobalVariables._ObstacleDifficulty)
+                        {
+                            case 0:
+                                GlobalVariables._ObstacleDifficulty = 1;
+                                break;
+                            case 1:
+                                GlobalVariables._ObstacleDifficulty = 2;
+                                break;
+                            case 2:
+                                GlobalVariables._ObstacleDifficulty = 0;
+                                break;
+                        }
                     }
                     else
                     {
-                        _Game.Exit();
+                        _MainGame.ResetMap();
+                        GlobalVariables._NetworkController.TrainNeuralNetwork();
+                        GlobalVariables._NeuralNetworkGame = true;
                     }
                 }
 
                 if (state.IsKeyUp(Keys.Up) && state.IsKeyUp(Keys.Down) && state.IsKeyUp(Keys.Space))
                 {
                     _KeyPressed = false;
-                }
-
-                if (state.IsKeyDown(Keys.N))
-                {
-                    GlobalVariables._NetworkController.TrainNeuralNetwork();
-                    GlobalVariables._NeuralNetworkGame = true;
                 }
             }
             else
@@ -94,19 +135,16 @@ namespace FlappyBirdNeuralNetwork.InterfaceHandler
             else
             {
                 //Show main menu
+                string gapDif = "Gap Difficulty: " + (GlobalVariables._GapDifficulty == 0 ? "Easy" : GlobalVariables._GapDifficulty == 1 ? "Medium" : "Hard");
+                string obsDif = "Obstacle Difficulty: " + (GlobalVariables._ObstacleDifficulty == 0 ? "Easy" : GlobalVariables._ObstacleDifficulty == 1 ? "Medium" : "Hard");
 
-                main.DrawString(_BigText, "Flappy Bird: Neural Network", new Vector2(20, 20), Color.Red);
+                main.DrawString(_BigText, "Flappy Bird: Neural Network", new Vector2(20, 0), Color.Red);
 
-                if (_SelectedIndex == 0)
-                {
-                    main.DrawString(_SmallText, "Play Game", new Vector2(20, 200), Color.Yellow);
-                    main.DrawString(_SmallText, "Exit Game", new Vector2(20, 300), Color.White);
-                }
-                else
-                {
-                    main.DrawString(_SmallText, "Play Game", new Vector2(20, 200), Color.White);
-                    main.DrawString(_SmallText, "Exit Game", new Vector2(20, 300), Color.Yellow);
-                }
+                main.DrawString(_SmallText, "Play Game", new Vector2(20, 100), _SelectedIndex == 0 ? Color.Yellow : Color.White);
+                main.DrawString(_SmallText, "Neural Network Game", new Vector2(20, 300), _SelectedIndex == 4 ? Color.Yellow : Color.White);
+                main.DrawString(_SmallText, "Exit Game", new Vector2(20, 150), _SelectedIndex == 1 ? Color.Yellow : Color.White);
+                main.DrawString(_SmallText, gapDif, new Vector2(20, 200), _SelectedIndex == 2 ? Color.Yellow : Color.White);
+                main.DrawString(_SmallText, obsDif, new Vector2(20, 250), _SelectedIndex == 3 ? Color.Yellow : Color.White);
             }
         }
     }
